@@ -17,3 +17,10 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
+
+export const blackListReducers = undefined;
+
+export const whiteListReducers = [
+  'library',
+  'chapters',
+];

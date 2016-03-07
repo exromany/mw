@@ -9,3 +9,14 @@ const actions = {
 };
 
 export default actions;
+
+export const blackListActions = [
+  catalogActions.INVALIDATE_CATALOG,
+  catalogActions.REQUEST_CATALOG,
+  catalogActions.RECEIVE_CATALOG,
+  catalogActions.REQUEST_INFO,
+  catalogActions.RECEIVE_INFO,
+  mangaActions.REQUEST_CHAPTERS,
+];
+
+export const whiteListActions = undefined;
