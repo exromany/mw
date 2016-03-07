@@ -6,26 +6,11 @@ import {
 const initChapter = {
   chapters: [],
   isFetching: false,
+  isRead: false,
+  isDownloaded: false,
 };
 
-export default function chpters(state = {}, action = {}) {
-  switch (action.type) {
-  case REQUEST_CHAPTERS:
-    return {
-      ...state,
-      [action.mangaId]: chapter(state[action.mangaId], action),
-    };
-  case RECEIVE_CHAPTERS:
-    return {
-      ...state,
-      [action.mangaId]: chapter(state[action.mangaId], action),
-    };
-  default:
-    return state;
-  }
-}
-
-export function chapter(state = initChapter, action = {}) {
+function chapters(state = initChapter, action = {}) {
   switch (action.type) {
   case REQUEST_CHAPTERS:
     return {
@@ -37,6 +22,23 @@ export function chapter(state = initChapter, action = {}) {
       ...state,
       chapters: action.chapters,
       isFetching: false,
+    };
+  default:
+    return state;
+  }
+}
+
+export default function mangaChapters(state = {}, action = {}) {
+  switch (action.type) {
+  case REQUEST_CHAPTERS:
+    return {
+      ...state,
+      [action.mangaId]: chapters(state[action.mangaId], action),
+    };
+  case RECEIVE_CHAPTERS:
+    return {
+      ...state,
+      [action.mangaId]: chapters(state[action.mangaId], action),
     };
   default:
     return state;

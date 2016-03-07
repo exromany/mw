@@ -27,7 +27,7 @@ export default class catalog extends Component {
     return (
       <View style={styles.container}>
         <ViewPagerAndroid
-            initialPage={0}
+            initialPage={1}
             style={styles.viewPager}
         >
           <View style={styles.pageStyle}>
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   pageStyle: {
-    alignItems: 'center',
-    padding: 20,
+    alignItems: 'stretch',
   },
 });

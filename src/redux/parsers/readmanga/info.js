@@ -6,7 +6,7 @@ function extractInfo($) {
   const covers = $('.subject-cower img').toArray().map(item => $(item).attr('src'));
   return {
     title: $('meta[itemprop="alternativeHeadline"]').attr('content').trim(),
-    alt_title: $('meta[itemprop="name"]').attr('content').trim(),
+    altTitle: $('meta[itemprop="name"]').attr('content').trim(),
     summary: $('meta[itemprop="description"]').attr('content').trim(),
     authors: $('.elem_author .person-link').toArray().map(item => $(item).text()),
     cover: covers[0],

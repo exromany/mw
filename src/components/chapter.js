@@ -1,45 +1,60 @@
 import React, {Component, View, Text, StyleSheet, PropTypes} from 'react-native';
-import {Checkbox, Icon} from 'react-native-material-design';
+import { Icon, Ripple } from 'react-native-material-design';
 
 export default class Chapter extends Component {
-
   static propTypes = {
-    chapter: PropTypes.shape(),
+    chapter: PropTypes.shape().isRequired,
+    onPress: PropTypes.func,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.onPress = this.onPress.bind(this);
+  }
+
+  onPress() {
+    const {chapter} = this.props;
+
+    React.Alert.alert('press on ', JSON.stringify(chapter));
+  }
 
   render() {
     const {chapter} = this.props;
     return (
-      <View style={styles.container}>
-        <View style={styles.left}>
-          <Checkbox
-              label="I agree to the terms and conditions"
-              value="accepted"
-          />
+      <Ripple onPress={this.onPress}>
+        <View style={styles.container}>
+          <View style={styles.left}>
+            <Icon name="check-box-outline-blank"/>
+          </View>
+          <View style={styles.center}>
+            <Text numberOfLines={1}>{chapter.title}</Text>
+            <Text>{chapter.date}</Text>
+          </View>
+          <View style={styles.right}>
+            <Icon name="file-download"/>
+          </View>
         </View>
-        <View style={styles.center}>
-          <Text>{chapter.title}</Text>
-          <Text>{chapter.date}</Text>
-        </View>
-        <View style={styles.right}>
-          <Icon name="download"/>
-        </View>
-      </View>
+      </Ripple>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-
+    flex: 1,
+    flexDirection: 'row',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   left: {
-
+    alignSelf: 'center',
   },
   center: {
-
+    flex: 1,
+    paddingHorizontal: 10,
   },
   right: {
-
+    alignSelf: 'center',
   },
 });

@@ -5,7 +5,7 @@ const ROOT_URL = 'http://mintmanga.com';
 function extractChapters($) {
   return $('.chapters-link tr:not(thead tr)').toArray().map(item => ({
     title: $('a', item).text().replace(/[\s\t\n]+/g, ' ').trim(),
-    url: $('a', item).attr('href'),
+    link: $('a', item).attr('href'),
     date: $('td[align=right]', item).text().replace(/[\s\t\n]+/g, ' ').trim(),
   }));
 }

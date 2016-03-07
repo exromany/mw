@@ -1,4 +1,6 @@
-import React, { Component, PropTypes, ListView, Text } from 'react-native';
+import React, { Component, PropTypes, ListView } from 'react-native';
+
+import Chapter from './chapter';
 
 export default class Library extends Component {
 
@@ -11,7 +13,7 @@ export default class Library extends Component {
 
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(chapters) ;
-    const renderItem = chapter => <Text>{chapter.title}</Text>;
+    const renderItem = chapter => <Chapter key={chapter.link} chapter={chapter}/>;
 
     return (
       <ListView
@@ -20,5 +22,4 @@ export default class Library extends Component {
       />
     );
   }
-
 }

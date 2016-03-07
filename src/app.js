@@ -29,7 +29,6 @@ class App extends Component {
                 title="Settings Screen"
             />
             <Route component={connect(selectSites)(Sites)}
-                initial
                 name="sites"
                 title="Sites List"
             />
@@ -42,6 +41,7 @@ class App extends Component {
                 title="Info"
             />
             <Route component={connect(selectLibrary)(Library)}
+                initial
                 name="library"
                 title="Library"
             />
@@ -87,12 +87,12 @@ function selectInfo(state, { siteId, link }) {
 
 function selectLibrary(state) {
   return {
-    library: state.library,
+    library: Object.keys(state.library).map(id => state.library[id]),
   };
 }
 
 function selectManga(state, { mangaId }) {
-  const manga = state.library.find(item => item.id === mangaId);
+  const manga = state.library[mangaId];
   return {
     manga,
     chapters: state.chapters[mangaId],

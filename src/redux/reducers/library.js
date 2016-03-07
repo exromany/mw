@@ -18,8 +18,8 @@ const initMangaState = {
   covers: [],
 };
 
-const initState = [
-  {
+const initState = {
+  'readmanga/noblesse': {
     title:'Noblesse',
     alt_title:'Дворянство',
     summary:'Действия разворачиваются в «наше время». Кроме людей в мире существуют еще две расы: ноблесс или благородные и оборотни. История начинается с пробуждения после 820-летнего сна ноблесс — Кадиса Этрама Д. Рейзела (сокращенно Рей) на территории современной Южной Кореи. Выйдя из сна и ничего не зная о мире, он попадает в старшую школу «Е-Ран», где встречается с директором этой школы, являющимся его старым знакомым — Франкенштейном. Впоследствии он начинает дружить с несколькими учениками из этой школы. Всем вместе им приходится столкнуться с могущественной и агрессивной организацией «Союз», которая «закулисно» правит всем миром. # Ogami-kun',
@@ -56,7 +56,7 @@ const initState = [
     siteId:'readmanga',
     id:'readmanga/noblesse',
   },
-];
+};
 
 function mangaId(manga) {
   return `${manga.siteId}${manga.link}`;
@@ -82,17 +82,23 @@ export function manga(state, action = {}) {
 
 export default function library(state = initState, action = {}) {
   switch (action.type) {
-  case ADD_MANGA:
-    return [
+  case ADD_MANGA: {
+    const item = manga(initMangaState, action);
+    return {
       ...state,
-      manga(initMangaState, action),
-    ];
+      [item.id]: item,
+    };
+  }
   case UPDATE_MANGA:
-    return state.map((item) => {
-      return item.id === action.id ? manga(item, action) : item;
-    });
+    return {
+      ...state,
+      [action.id]: manga(state[action.id], action),
+    };
   case REMOVE_MANGA:
-    return state.splace(state.find(item => item.id === action.id));
+    return {
+      ...state,
+      [action.id]: undefined,
+    };
   default:
     return state;
   }
