@@ -22,9 +22,7 @@ const finalCreateStore = compose(
 
 export default function configureStore(initState) {
   const store = finalCreateStore(reducer, initState);
-
   const load = storage.createLoader(engine);
   load(store);
-
   return store;
 }

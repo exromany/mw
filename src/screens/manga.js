@@ -2,7 +2,7 @@ import React, {Component, PropTypes, View, ScrollView, ViewPagerAndroid, StyleSh
 
 import MangaInfo from '../components/manga-info';
 import Chapters from '../components/chapters';
-import { fetchChapters } from '../redux/actions/manga';
+import { fetchChaptersIfNeeded, fetchChapters } from '../redux/actions';
 
 export default class catalog extends Component {
   static propTypes = {
@@ -14,11 +14,18 @@ export default class catalog extends Component {
 
   constructor(props) {
     super(props);
+
+    this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentDidMount() {
     const { dispatch, manga } = this.props;
-    dispatch(fetchChapters(manga.siteId, manga.link, manga.id));
+    dispatch(fetchChaptersIfNeeded(manga.id));
+  }
+
+  onRefresh() {
+    const { dispatch, manga: { id } } = this.props;
+    dispatch(fetchChapters(id));
   }
 
   render() {
@@ -39,7 +46,7 @@ export default class catalog extends Component {
             </ScrollView>
           </View>
           <View style={styles.pageStyle}>
-            <Chapters chapters={chapters ? chapters.chapters : []}/>
+            <Chapters chapters={chapters} onRefresh={this.onRefresh}/>
           </View>
         </ViewPagerAndroid>
       </View>

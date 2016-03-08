@@ -6,3 +6,7 @@
   - Manga About
   - Chapters
   - Settings
+
+# mangaID
+
+readmanga@/one_piece

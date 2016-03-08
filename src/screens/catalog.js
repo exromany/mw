@@ -2,7 +2,7 @@ import React, {Component, PropTypes, View, Text} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import MangaList from '../components/manga-list';
-import { fetchCatalogIfNeeded } from '../redux/actions/catalog';
+import { fetchCatalogIfNeeded } from '../redux/actions';
 
 export default class catalog extends Component {
   static propTypes = {

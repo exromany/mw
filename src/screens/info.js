@@ -3,8 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-material-design';
 
 import MangaInfo from '../components/manga-info';
-import { fetchInfo } from '../redux/actions/catalog';
-import { addManga } from '../redux/actions/library';
+import { fetchInfo, addManga } from '../redux/actions';
 
 export default class catalog extends Component {
   static propTypes = {

@@ -29,7 +29,7 @@ export default class Chapter extends Component {
           </View>
           <View style={styles.center}>
             <Text numberOfLines={1}>{chapter.title}</Text>
-            <Text>{chapter.date}</Text>
+            <Text>{chapter.data}</Text>
           </View>
           <View style={styles.right}>
             <Icon name="file-download"/>
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
   },
   center: {
     flex: 1,
+    alignSelf: 'center',
     paddingHorizontal: 10,
   },
   right: {

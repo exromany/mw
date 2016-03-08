@@ -18,13 +18,36 @@ function receiveChapters(mangaId, chapters) {
   };
 }
 
-export function fetchChapters(siteId, link, id) {
-  return dispatch => {
+export function fetchChapters(id) {
+  return (dispatch, getState) => {
     dispatch(requestChapters(id));
+
+    const { siteId, link } = getState().library[id];
 
     return parsers[siteId].fetchChapters(link)
       .then(chapters => {
         dispatch(receiveChapters(id, chapters));
+        return chapters;
       });
+  };
+}
+
+function shouldFetchChapters(state, id) {
+  const { chapters } = state;
+
+  if (chapters[id]) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+export function fetchChaptersIfNeeded(id) {
+  return (dispatch, getState) => {
+    if (shouldFetchChapters(getState(), id)) {
+      return dispatch(fetchChapters(id));
+    } else {
+      return Promise.resolve();
+    }
   };
 }

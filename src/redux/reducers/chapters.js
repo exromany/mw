@@ -3,14 +3,33 @@ import {
   RECEIVE_CHAPTERS,
 } from '../actions/manga';
 
-const initChapter = {
+const initChapters = {
   chapters: [],
   isFetching: false,
-  isRead: false,
-  isDownloaded: false,
 };
 
-function chapters(state = initChapter, action = {}) {
+const initChapter = {
+  title: null,
+  link: null,
+  data: null,
+  isNew: false,
+  isRead: false,
+  idDownloaded: false,
+};
+
+function chapter(state = initChapter, action = {}) {
+  switch (action.type) {
+  case RECEIVE_CHAPTERS:
+    return {
+      ...state,
+      ...action.item,
+    };
+  default:
+    return state;
+  }
+}
+
+function chapters(state = initChapters, action = {}) {
   switch (action.type) {
   case REQUEST_CHAPTERS:
     return {
@@ -20,7 +39,10 @@ function chapters(state = initChapter, action = {}) {
   case RECEIVE_CHAPTERS:
     return {
       ...state,
-      chapters: action.chapters,
+      chapters: action.chapters.map(item => chapter(
+        state.chapters.find(chapter => chapter.link === item.link),
+        { type: action.type, item }
+      )),
       isFetching: false,
     };
   default:

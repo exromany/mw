@@ -81,6 +81,7 @@ export function fetchInfo(siteId, link) {
       .then(info => ({ ...info, siteId }))
       .then(info => {
         dispatch(receiveInfo(siteId, info));
+        return info;
       });
   };
 }

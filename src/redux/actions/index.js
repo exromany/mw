@@ -1,22 +1,17 @@
-import * as catalogActions from './catalog';
-import * as libraryActions from './library';
-import * as mangaActions from './manga';
+import * as catalog from './catalog';
+import * as manga from './manga';
 
-const actions = {
-  ...catalogActions,
-  ...libraryActions,
-  ...mangaActions,
-};
-
-export default actions;
+export * from './catalog';
+export * from './library';
+export * from './manga';
 
 export const blackListActions = [
-  catalogActions.INVALIDATE_CATALOG,
-  catalogActions.REQUEST_CATALOG,
-  catalogActions.RECEIVE_CATALOG,
-  catalogActions.REQUEST_INFO,
-  catalogActions.RECEIVE_INFO,
-  mangaActions.REQUEST_CHAPTERS,
+  catalog.INVALIDATE_CATALOG,
+  catalog.REQUEST_CATALOG,
+  catalog.RECEIVE_CATALOG,
+  catalog.REQUEST_INFO,
+  catalog.RECEIVE_INFO,
+  manga.REQUEST_CHAPTERS,
 ];
 
 export const whiteListActions = undefined;

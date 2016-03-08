@@ -11,6 +11,9 @@ function _addManga(data) {
   };
 }
 
+/**
+ * unused
+ */
 export function updateManga(data) {
   return {
     type: UPDATE_MANGA,
@@ -18,6 +21,9 @@ export function updateManga(data) {
   };
 }
 
+/**
+ * unused
+ */
 export function removeManga(data) {
   return {
     type: REMOVE_MANGA,
@@ -25,6 +31,9 @@ export function removeManga(data) {
   };
 }
 
+/**
+ * @param object data Info from fetchInfo method
+ */
 export function addManga(data) {
   return dispatch => {
     dispatch(_addManga(data));
