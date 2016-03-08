@@ -18,34 +18,34 @@ function receiveChapters(mangaId, chapters) {
   };
 }
 
-export function fetchChapters(id) {
+export function fetchChapters(magnaId) {
   return (dispatch, getState) => {
-    dispatch(requestChapters(id));
+    dispatch(requestChapters(magnaId));
 
-    const { siteId, link } = getState().library[id];
+    const { siteId, link } = getState().library[magnaId];
 
     return parsers[siteId].fetchChapters(link)
       .then(chapters => {
-        dispatch(receiveChapters(id, chapters));
+        dispatch(receiveChapters(magnaId, chapters));
         return chapters;
       });
   };
 }
 
-function shouldFetchChapters(state, id) {
+function shouldFetchChapters(state, magnaId) {
   const { chapters } = state;
 
-  if (chapters[id]) {
+  if (chapters[magnaId]) {
     return false;
   } else {
     return true;
   }
 }
 
-export function fetchChaptersIfNeeded(id) {
+export function fetchChaptersIfNeeded(magnaId) {
   return (dispatch, getState) => {
-    if (shouldFetchChapters(getState(), id)) {
-      return dispatch(fetchChapters(id));
+    if (shouldFetchChapters(getState(), magnaId)) {
+      return dispatch(fetchChapters(magnaId));
     } else {
       return Promise.resolve();
     }

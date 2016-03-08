@@ -14,9 +14,8 @@ export default class Chapter extends Component {
   }
 
   onPress() {
-    const {chapter} = this.props;
-
-    React.Alert.alert('press on ', JSON.stringify(chapter));
+    const { chapter, onPress } = this.props;
+    onPress(chapter);
   }
 
   render() {

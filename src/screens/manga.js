@@ -1,4 +1,5 @@
 import React, {Component, PropTypes, View, ScrollView, ViewPagerAndroid, StyleSheet} from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import MangaInfo from '../components/manga-info';
 import Chapters from '../components/chapters';
@@ -16,6 +17,7 @@ export default class catalog extends Component {
     super(props);
 
     this.onRefresh = this.onRefresh.bind(this);
+    this.onChapterPress = this.onChapterPress.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +28,11 @@ export default class catalog extends Component {
   onRefresh() {
     const { dispatch, manga: { id } } = this.props;
     dispatch(fetchChapters(id));
+  }
+
+  onChapterPress(chapter) {
+    const { manga: { id } } = this.props;
+    Actions.pages({ mangaId: id, chapterLink: chapter.link });
   }
 
   render() {
@@ -46,7 +53,7 @@ export default class catalog extends Component {
             </ScrollView>
           </View>
           <View style={styles.pageStyle}>
-            <Chapters chapters={chapters} onRefresh={this.onRefresh}/>
+            <Chapters chapters={chapters} onRefresh={this.onRefresh} onPress={this.onChapterPress}/>
           </View>
         </ViewPagerAndroid>
       </View>

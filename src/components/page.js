@@ -5,9 +5,9 @@ export default class Page extends Component {
   static propTypes = {
     source: PropTypes.shape({
       uri: PropTypes.string.isRequired,
-      width: PropTypes.number,
-      height: PropTypes.number,
-    }),
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }).isRequired,
   };
 
   componentWillMount() {
@@ -114,7 +114,7 @@ export default class Page extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#737472',
+    backgroundColor: '#A37472',
     flex: 1,
   },
   page: {

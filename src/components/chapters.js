@@ -8,6 +8,7 @@ export default class Library extends Component {
       isFetching: PropTypes.bool.isRequired,
       chapters: PropTypes.arrayOf(PropTypes.shape),
     }).isRequired,
+    onPress: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
   };
 
@@ -19,11 +20,16 @@ export default class Library extends Component {
   };
 
   render() {
-    const { chapters: { chapters, isFetching }, onRefresh } = this.props;
+    const { chapters: { chapters, isFetching }, onRefresh, onPress } = this.props;
 
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(chapters) ;
-    const renderItem = chapter => <Chapter key={chapter.link} chapter={chapter}/>;
+    const renderItem = chapter =>
+      <Chapter
+          chapter={chapter}
+          key={chapter.link}
+          onPress={onPress}
+      />;
 
     return (
       <PullToRefreshViewAndroid

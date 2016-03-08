@@ -4,7 +4,7 @@ import sites from './sites';
 import catalog from './catalog';
 import library from './library';
 import chapters from './chapters';
-// import pages from './pages';
+import pages from './pages';
 // import routes from './routes';
 
 const rootReducer = combineReducers({
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   catalog,
   library,
   chapters,
-  // pages,
+  pages,
   // routes,
 });
 

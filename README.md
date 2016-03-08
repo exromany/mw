@@ -10,3 +10,7 @@
 # mangaID
 
 readmanga@/one_piece
+
+# chapterID
+
+readmanga@/one_piece/1/1

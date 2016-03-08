@@ -1,6 +1,7 @@
 import fetchCatalog from './catalog';
 import fetchInfo from './info';
 import fetchChapters from './chapters';
+import fetchPages from './pages';
 
 const manga = {
   id: 'readmanga',
@@ -14,6 +15,7 @@ export const parsers = {
   fetchCatalog,
   fetchInfo,
   fetchChapters,
+  fetchPages,
 };
 
 export default manga;

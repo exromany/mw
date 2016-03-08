@@ -1,17 +1,16 @@
-import * as catalog from './catalog';
 import * as manga from './manga';
+import * as library from './library';
 
 export * from './catalog';
 export * from './library';
 export * from './manga';
+export * from './pages';
 
-export const blackListActions = [
-  catalog.INVALIDATE_CATALOG,
-  catalog.REQUEST_CATALOG,
-  catalog.RECEIVE_CATALOG,
-  catalog.REQUEST_INFO,
-  catalog.RECEIVE_INFO,
-  manga.REQUEST_CHAPTERS,
+export const blackListActions = undefined;
+
+export const whiteListActions = [
+  library.ADD_MANGA,
+  library.UPDATE_MANGA,
+  library.REMOVE_MANGA,
+  manga.RECEIVE_CHAPTERS,
 ];
-
-export const whiteListActions = undefined;

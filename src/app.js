@@ -9,7 +9,7 @@ import Catalog from './screens/catalog';
 import Info from './screens/info';
 import Library from './screens/library';
 import Manga from './screens/manga';
-// import Pages from './screens/pages';
+import Pages from './screens/pages';
 
 class App extends Component {
   static propTypes = {
@@ -51,6 +51,10 @@ class App extends Component {
             />
           </Router>
         </Route>
+        <Route component={connect(selectPages)(Pages)}
+            name="pages"
+            title="Pages"
+        />
       </Router>
     );
   }
@@ -97,5 +101,13 @@ function selectManga(state, { mangaId }) {
     manga,
     chapters: state.chapters[mangaId],
     site: state.sites.find(site => site.id === manga.siteId),
+  };
+}
+
+function selectPages(state, { mangaId, chapterLink }) {
+  return {
+    pages: (state.pages[mangaId] || {})[chapterLink],
+    chapter: state.chapters[mangaId].chapters.find(item => item.link === chapterLink),
+    manga: state.library[mangaId],
   };
 }

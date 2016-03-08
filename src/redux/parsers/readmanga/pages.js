@@ -14,7 +14,7 @@ function extractPages(text) {
   }));
 }
 
-export function loadPages(link) {
-  fetchResponse(`${ROOT_URL}${link}`)
+export default function fetchPages(link) {
+  return fetchResponse(`${ROOT_URL}${link}`)
     .then(extractPages);
 }
