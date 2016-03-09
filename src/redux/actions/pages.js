@@ -3,51 +3,53 @@ import { parsers } from '../parsers';
 export const REQUEST_PAGES = 'REQUEST_PAGES';
 export const RECEIVE_PAGES = 'RECEIVE_PAGES';
 
-function requestPages(mangaId, chapterLink) {
+function requestPages(mangaId, chapterId) {
   return {
     type: REQUEST_PAGES,
     mangaId,
-    chapterLink,
+    chapterId,
   };
 }
 
-function receivePages(mangaId, chapterLink, pages) {
+function receivePages(mangaId, chapterId, pages) {
   return {
     type: RECEIVE_PAGES,
     mangaId,
-    chapterLink,
+    chapterId,
     pages,
   };
 }
 
-export function fetchPages(mangaId, chapterLink) {
+export function fetchPages(mangaId, chapterId) {
   return (dispatch, getState) => {
-    dispatch(requestPages(mangaId, chapterLink));
+    dispatch(requestPages(mangaId, chapterId));
 
-    const { siteId } = getState().library[mangaId];
+    const { library, chapters } = getState();
+    const { siteId } = library[mangaId];
+    const { link } = chapters[mangaId].find(chapter => chapter.id === chapterId);
 
-    return parsers[siteId].fetchPages(chapterLink)
+    return parsers[siteId].fetchPages(link)
       .then(pages => {
-        dispatch(receivePages(mangaId, chapterLink, pages));
+        dispatch(receivePages(mangaId, chapterId, pages));
         return pages;
       });
   };
 }
 
-function shouldFetchPages(state, mangaId, chapterLink) {
+function shouldFetchPages(state, mangaId, chapterId) {
   const { pages } = state;
 
-  if (pages[mangaId] && pages[mangaId][chapterLink] && pages[mangaId][chapterLink].length) {
+  if (pages[chapterId] && pages[chapterId].length) {
     return false;
   } else {
     return true;
   }
 }
 
-export function fetchPagesIfNeeded(mangaId, chapterLink) {
+export function fetchPagesIfNeeded(mangaId, chapterId) {
   return (dispatch, getState) => {
-    if (shouldFetchPages(getState(), mangaId, chapterLink)) {
-      return dispatch(fetchPages(mangaId, chapterLink));
+    if (shouldFetchPages(getState(), mangaId, chapterId)) {
+      return dispatch(fetchPages(mangaId, chapterId));
     } else {
       return Promise.resolve();
     }

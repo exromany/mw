@@ -4,6 +4,11 @@ import {
   REMOVE_MANGA,
 } from '../actions/library';
 
+import {
+  REQUEST_CHAPTERS,
+  RECEIVE_CHAPTERS,
+} from '../actions/chapters';
+
 const initMangaState = {
   title: null,
   alt_title: null,
@@ -18,8 +23,8 @@ const initMangaState = {
   covers: [],
 };
 
-function mangaId(manga) {
-  return `${manga.siteId}${manga.link}`;
+function mangaId({ manga: { siteId, link } }) {
+  return `${siteId}@${link}`;
 }
 
 export function manga(state = initMangaState, action = {}) {
@@ -27,13 +32,23 @@ export function manga(state = initMangaState, action = {}) {
   case ADD_MANGA:
     return {
       ...action.manga,
-      id: mangaId(action.manga),
+      id: mangaId(action),
     };
   case UPDATE_MANGA:
     return {
       ...state,
       ...action.manga,
       id: state.id,
+    };
+  case REQUEST_CHAPTERS:
+    return {
+      ...state,
+      isFetchingChapters: true,
+    };
+  case RECEIVE_CHAPTERS:
+    return {
+      ...state,
+      isFetchingChapters: false,
     };
   default:
     return state;
@@ -49,15 +64,17 @@ export default function library(state = {}, action = {}) {
       [item.id]: item,
     };
   }
-  case UPDATE_MANGA:
-    return {
-      ...state,
-      [action.id]: manga(state[action.id], action),
-    };
   case REMOVE_MANGA:
     return {
       ...state,
-      [action.id]: undefined,
+      [action.mangaId]: undefined,
+    };
+  case UPDATE_MANGA:
+  case REQUEST_CHAPTERS:
+  case RECEIVE_CHAPTERS:
+    return {
+      ...state,
+      [action.mangaId]: manga(state[action.mangaId], action),
     };
   default:
     return state;

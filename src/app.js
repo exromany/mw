@@ -104,10 +104,12 @@ function selectManga(state, { mangaId }) {
   };
 }
 
-function selectPages(state, { mangaId, chapterLink }) {
+function selectPages(state, { mangaId, chapterId }) {
+  const manga = state.library[mangaId];
+  const chapter = state.chapters[mangaId].find(chapter => chapter.id === chapterId);
   return {
-    pages: (state.pages[mangaId] || {})[chapterLink],
-    chapter: state.chapters[mangaId].chapters.find(item => item.link === chapterLink),
-    manga: state.library[mangaId],
+    pages: state.pages[chapter.id],
+    chapter,
+    manga,
   };
 }

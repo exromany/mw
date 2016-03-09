@@ -1,12 +1,6 @@
 import {
-  REQUEST_CHAPTERS,
   RECEIVE_CHAPTERS,
-} from '../actions/manga';
-
-const initChapters = {
-  chapters: [],
-  isFetching: false,
-};
+} from '../actions/chapters';
 
 const initChapter = {
   title: null,
@@ -17,51 +11,37 @@ const initChapter = {
   idDownloaded: false,
 };
 
+
+function chapterId({ mangaId, item: { link }}) {
+  return `${mangaId}@${link}`;
+}
+
 function chapter(state = initChapter, action = {}) {
   switch (action.type) {
   case RECEIVE_CHAPTERS:
     return {
       ...state,
       ...action.item,
+      id: chapterId(action),
     };
   default:
     return state;
   }
 }
 
-function chapters(state = initChapters, action = {}) {
+export default function chapters(state = {}, action = {}) {
   switch (action.type) {
-  case REQUEST_CHAPTERS:
+  case RECEIVE_CHAPTERS: {
+    const { type, mangaId } = action;
     return {
       ...state,
-      isFetching: true,
-    };
-  case RECEIVE_CHAPTERS:
-    return {
-      ...state,
-      chapters: action.chapters.map(item => chapter(
-        state.chapters.find(chapter => chapter.link === item.link),
-        { type: action.type, item }
+      [mangaId]: action.chapters.map(item => chapter(
+        // state[mangaId].find(chapter => chapter.link === item.link),
+        undefined,
+        { type, mangaId, item }
       )),
-      isFetching: false,
     };
-  default:
-    return state;
   }
-}
-
-export default function mangaChapters(state = {}, action = {}) {
-  switch (action.type) {
-  case REQUEST_CHAPTERS:
-    return {
-      ...state,
-      [action.mangaId]: chapters(state[action.mangaId], action),
-    };
-  case RECEIVE_CHAPTERS:
-    return {
-      ...state,
-      [action.mangaId]: chapters(state[action.mangaId], action),
-    };
   default:
     return state;
   }

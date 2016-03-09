@@ -1,55 +1,49 @@
-import React, { Component, PropTypes, ListView, PullToRefreshViewAndroid } from 'react-native';
+import React, { Component, PropTypes, ListView, RefreshControl } from 'react-native';
 import Chapter from './chapter';
 
 export default class Library extends Component {
 
   static propTypes = {
-    chapters: PropTypes.shape({
-      isFetching: PropTypes.bool.isRequired,
-      chapters: PropTypes.arrayOf(PropTypes.shape),
-    }).isRequired,
+    chapters: PropTypes.arrayOf(PropTypes.shape),
+    isRefreshing: PropTypes.bool,
     onPress: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    chapters: {
-      isFetching: true,
-      chapters: [],
-    },
+    chapters: [],
   };
 
   render() {
-    const { chapters: { chapters, isFetching }, onRefresh, onPress } = this.props;
+    const { chapters, onRefresh, onPress, isRefreshing } = this.props;
 
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(chapters) ;
-    const renderItem = chapter =>
+    const renderItem = chapter => (
       <Chapter
           chapter={chapter}
           key={chapter.link}
           onPress={onPress}
-      />;
+      />
+    );
+
+    const refreshControl = (
+      <RefreshControl
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+        tintColor="#ff0000"
+        title="Loading..."
+        colors={['#ff0000', '#00ff00', '#0000ff']}
+        progressBackgroundColor="#ffff00"
+      />
+    );
 
     return (
-      <PullToRefreshViewAndroid
-          style={styles.layout}
-          refreshing={isFetching}
-          onRefresh={onRefresh}
-          // colors={['#ff0000', '#00ff00', '#0000ff']}
-          // progressBackgroundColor={'#ffff00'}
-      >
-        <ListView
-            dataSource={dataSource}
-            renderRow={renderItem}
-        />
-      </PullToRefreshViewAndroid>
+      <ListView
+          dataSource={dataSource}
+          refreshControl={refreshControl}
+          renderRow={renderItem}
+      />
     );
   }
 }
-
-const styles = React.StyleSheet.create({
-  layout: {
-    flex: 1,
-  },
-});

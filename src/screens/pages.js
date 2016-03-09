@@ -20,7 +20,7 @@ export default class Pages extends Component {
 
   componentDidMount() {
     const { dispatch, manga, chapter } = this.props;
-    dispatch(fetchPagesIfNeeded(manga.id, chapter.link));
+    dispatch(fetchPagesIfNeeded(manga.id, chapter.id));
   }
 
   render() {

@@ -7,7 +7,7 @@ import { fetchChaptersIfNeeded, fetchChapters } from '../redux/actions';
 
 export default class catalog extends Component {
   static propTypes = {
-    chapters: PropTypes.shape(),
+    chapters: PropTypes.arrayOf(),
     dispatch: PropTypes.func.isRequired,
     manga: PropTypes.shape().isRequired,
     site: PropTypes.shape().isRequired,
@@ -32,7 +32,7 @@ export default class catalog extends Component {
 
   onChapterPress(chapter) {
     const { manga: { id } } = this.props;
-    Actions.pages({ mangaId: id, chapterLink: chapter.link });
+    Actions.pages({ mangaId: id, chapterId: chapter.id });
   }
 
   render() {
@@ -53,7 +53,11 @@ export default class catalog extends Component {
             </ScrollView>
           </View>
           <View style={styles.pageStyle}>
-            <Chapters chapters={chapters} onRefresh={this.onRefresh} onPress={this.onChapterPress}/>
+            <Chapters chapters={chapters}
+                isRefreshing={manga.isFetchingChapters}
+                onPress={this.onChapterPress}
+                onRefresh={this.onRefresh}
+            />
           </View>
         </ViewPagerAndroid>
       </View>
