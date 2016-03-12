@@ -1,5 +1,6 @@
 import * as chapters from './chapters';
 import * as library from './library';
+import * as pages from './pages';
 
 export * from './catalog';
 export * from './library';
@@ -13,4 +14,5 @@ export const whiteListActions = [
   library.UPDATE_MANGA,
   library.REMOVE_MANGA,
   chapters.RECEIVE_CHAPTERS,
+  pages.RECEIVE_PAGES,
 ];

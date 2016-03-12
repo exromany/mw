@@ -1,6 +1,6 @@
 import React, {Component, PropTypes, ViewPagerAndroid} from 'react-native';
-import Page from '../components/page';
-import { fetchPagesIfNeeded } from '../redux/actions';
+import Page from '../components/page2';
+import { fetchPages } from '../redux/actions';
 
 export default class Pages extends Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export default class Pages extends Component {
 
   componentDidMount() {
     const { dispatch, manga, chapter } = this.props;
-    dispatch(fetchPagesIfNeeded(manga.id, chapter.id));
+    dispatch(fetchPages(manga.id, chapter.id));
   }
 
   render() {

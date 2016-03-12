@@ -23,4 +23,5 @@ export const blackListReducers = undefined;
 export const whiteListReducers = [
   'library',
   'chapters',
+  'pages',
 ];
