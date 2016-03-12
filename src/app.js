@@ -1,6 +1,7 @@
 import React, { Component, StyleSheet, PropTypes } from 'react-native';
 import { Router, Route } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { selectSites, selectCatalog, selectInfo, selectLibrary, selectManga, selectPages } from './redux/store/selectors';
 
 import Toolbar from './components/toolbar';
 import Settings from './screens/settings';
@@ -67,49 +68,3 @@ const styles = StyleSheet.create({
     paddingTop: 56,
   },
 });
-
-function selectSites(state) {
-  return {
-    sites: state.sites,
-  };
-}
-
-function selectCatalog(state, { siteId }) {
-  return {
-    catalog: state.catalog,
-    site: state.sites.find(site => site.id === siteId),
-  };
-}
-
-function selectInfo(state, { siteId, link }) {
-  return {
-    link,
-    catalog: state.catalog,
-    site: state.sites.find(site => site.id === siteId),
-  };
-}
-
-function selectLibrary(state) {
-  return {
-    library: Object.keys(state.library).map(id => state.library[id]),
-  };
-}
-
-function selectManga(state, { mangaId }) {
-  const manga = state.library[mangaId];
-  return {
-    manga,
-    chapters: state.chapters[mangaId],
-    site: state.sites.find(site => site.id === manga.siteId),
-  };
-}
-
-function selectPages(state, { mangaId, chapterId }) {
-  const manga = state.library[mangaId];
-  const chapter = state.chapters[mangaId].find(chapter => chapter.id === chapterId);
-  return {
-    pages: state.pages[chapter.id],
-    chapter,
-    manga,
-  };
-}
