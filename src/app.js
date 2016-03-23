@@ -1,8 +1,16 @@
 import React, { Component, StyleSheet, PropTypes } from 'react-native';
 import { Router, Route } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { selectSites, selectCatalog, selectInfo, selectLibrary, selectManga, selectPages } from './redux/store/selectors';
+import {
+  selectSites,
+  selectCatalog,
+  selectInfo,
+  selectLibrary,
+  selectManga,
+  selectPages,
+} from './redux/store/selectors';
 
+import Drawler from './components/drawler';
 import Toolbar from './components/toolbar';
 import Settings from './screens/settings';
 import Sites from './screens/sites';
@@ -21,36 +29,38 @@ class App extends Component {
     return (
       <Router hideNavBar>
         <Route name="main">
-          <Router
-              footer={Toolbar}
-              style={styles.router}
-          >
-            <Route component={Settings}
-                name="settings"
-                title="Settings Screen"
-            />
-            <Route component={connect(selectSites)(Sites)}
-                name="sites"
-                title="Sites List"
-            />
-            <Route component={connect(selectCatalog)(Catalog)}
-                name="catalog"
-                title="Catalog List"
-            />
-            <Route component={connect(selectInfo)(Info)}
-                name="info"
-                title="Info"
-            />
-            <Route component={connect(selectLibrary)(Library)}
-                initial
-                name="library"
-                title="Library"
-            />
-            <Route component={connect(selectManga)(Manga)}
-                name="manga"
-                title="Manga"
-            />
-          </Router>
+          <Drawler>
+            <Router
+                footer={Toolbar}
+                style={styles.router}
+            >
+              <Route component={Settings}
+                  name="settings"
+                  title="Settings Screen"
+              />
+              <Route component={connect(selectSites)(Sites)}
+                  name="sites"
+                  title="Sites List"
+              />
+              <Route component={connect(selectCatalog)(Catalog)}
+                  name="catalog"
+                  title="Catalog List"
+              />
+              <Route component={connect(selectInfo)(Info)}
+                  name="info"
+                  title="Info"
+              />
+              <Route component={connect(selectLibrary)(Library)}
+                  initial
+                  name="library"
+                  title="Library"
+              />
+              <Route component={connect(selectManga)(Manga)}
+                  name="manga"
+                  title="Manga"
+              />
+            </Router>
+          </Drawler>
         </Route>
         <Route component={connect(selectPages)(Pages)}
             name="pages"
