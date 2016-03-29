@@ -1,5 +1,5 @@
 import React, { Component, StyleSheet, PropTypes } from 'react-native';
-import { Router, Route } from 'react-native-router-flux';
+import { Router, Scene, Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import {
   selectSites,
@@ -10,7 +10,7 @@ import {
   selectPages,
 } from './redux/store/selectors';
 
-import Drawler from './components/drawler';
+import Drawer from './components/drawer';
 import Toolbar from './components/toolbar';
 import Settings from './screens/settings';
 import Sites from './screens/sites';
@@ -27,45 +27,40 @@ class App extends Component {
 
   render() {
     return (
-      <Router hideNavBar>
-        <Route name="main">
-          <Drawler>
-            <Router
-                footer={Toolbar}
-                style={styles.router}
+      <Router>
+        <Scene key="root" hideNavBar>
+          <Scene key="main" component={Drawer}>
+            <Scene key="toolbar"
+                navBar={Toolbar}
+                style={styles.sceneWithNavbar}
             >
-              <Route component={Settings}
-                  name="settings"
-                  title="Settings Screen"
+              <Scene key="sites"
+                  component={connect(selectSites)(Sites)}
               />
-              <Route component={connect(selectSites)(Sites)}
-                  name="sites"
-                  title="Sites List"
+              <Scene key="catalog"
+                  component={connect(selectCatalog)(Catalog)}
               />
-              <Route component={connect(selectCatalog)(Catalog)}
-                  name="catalog"
-                  title="Catalog List"
+              <Scene key="info"
+                  component={connect(selectInfo)(Info)}
               />
-              <Route component={connect(selectInfo)(Info)}
-                  name="info"
-                  title="Info"
-              />
-              <Route component={connect(selectLibrary)(Library)}
+              <Scene key="library"
                   initial
-                  name="library"
-                  title="Library"
+                  component={connect(selectLibrary)(Library)}
               />
-              <Route component={connect(selectManga)(Manga)}
-                  name="manga"
-                  title="Manga"
+              <Scene key="manga"
+                  component={connect(selectManga)(Manga)}
               />
-            </Router>
-          </Drawler>
-        </Route>
-        <Route component={connect(selectPages)(Pages)}
-            name="pages"
-            title="Pages"
-        />
+            </Scene>
+          </Scene>
+          <Scene key="pages"
+              component={connect(selectPages)(Pages)}
+              hideNavBar
+          />
+          <Scene key="settings"
+              hideNavBar
+              component={Settings}
+          />
+        </Scene>
       </Router>
     );
   }
@@ -74,7 +69,9 @@ class App extends Component {
 export default connect(() => ({}), dispatch => ({dispatch}))(App);
 
 const styles = StyleSheet.create({
-  router: {
-    paddingTop: 56,
+  sceneWithNavbar: {
+    flex: 1,
+    position: 'relative',
+    paddingTop: 50,
   },
 });

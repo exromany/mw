@@ -21,6 +21,7 @@ export default class Toolbar extends Component {
           icon="android"
           primary="paperGreen"
           title="MW"
+          style={{top: -40, position: 'absolute', flex: 1}}
       />
     );
   }

@@ -1,86 +1,109 @@
 import React, { Component, DrawerLayoutAndroid, PropTypes, View, Text, Image, StyleSheet } from 'react-native';
-import { Avatar, Drawer, Divider, COLOR, TYPO } from 'react-native-material-design';
+import { Avatar, Drawer as DrawerView, Divider, COLOR, TYPO } from 'react-native-material-design';
 import { Actions } from 'react-native-router-flux';
+import {DefaultRenderer} from 'react-native-router-flux';
 
-export default class Drawler extends Component {
+export default class Drawer extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    route: PropTypes.shape(),
+    navigationState: PropTypes.shape().isRequired,
   };
 
   constructor(props) {
     super(props);
 
     this.renderNavigationView = this.renderNavigationView.bind(this);
+    this._drawer = null;
   }
 
-  renderNavigationView() {
-    const { route } = this.props;
+  close() {
+    if (this._drawer) {
+      this._drawer.closeDrawer();
+    }
+  }
 
-    const items = [
+  goto(action, params) {
+    Actions[action].apply(undefined, params);
+    this.close();
+  }
+
+  getNavigationItems() {
+    const { navigationState } = this.props;
+    let selected = navigationState.children[navigationState.index];
+
+    return [
       {
         icon: 'home',
         value: 'Library',
-        active: route.name === 'home',
-        onPress: () => Actions.library(),
+        active: selected.name === 'library',
+        onPress: () => this.goto('library'),
       }, {
         icon: 'search',
         value: 'Search',
-        active: route.name === 'search',
-        onPress: () => React.ToastAndroid.show('Will be implemented in future', React.ToastAndroid.SHORT),
+        active: selected.name === 'search',
+        onPress: () => this.close(),
       }, {
         icon: 'schedule',
         value: 'Latest updates',
         label: '0',
-        active: route.name === 'updates',
+        active: selected.name === 'updates',
         onPress: () => React.ToastAndroid.show('Will be implemented in future', React.ToastAndroid.SHORT),
       }, {
         icon: 'language',
         value: 'Online catalogs',
-        active: route.name === 'sites',
-        onPress: () => Actions.sites(),
+        active: selected.name === 'sites',
+        onPress: () => this.goto('sites'),
       }, {
         icon: 'file-download',
         value: 'Download queue',
-        active: route.name === 'downloads',
+        active: selected.name === 'downloads',
         onPress: () => React.ToastAndroid.show('Will be implemented in future', React.ToastAndroid.SHORT),
       }, {
         icon: 'settings',
         value: 'Settings',
-        active: route.name === 'settings',
-        onPress: () => Actions.settings(),
+        active: selected.name === 'settings',
+        onPress: () => this.goto('settings'),
       },
     ];
+  }
+
+  renderNavigationView() {
+    const items = this.getNavigationItems();
 
     return (
-      <Drawer theme="light">
-        <Drawer.Header>
+      <DrawerView theme="light">
+        <DrawerView.Header>
           <View style={styles.header}>
             <Avatar size={80} image={<Image source={{ uri: "http://facebook.github.io/react-native/img/opengraph.png?2" }}/>} />
             <Text style={[styles.text, COLOR.paperGrey50, TYPO.paperFontSubhead]}>React Native Material Design</Text>
           </View>
-        </Drawer.Header>
-        <Drawer.Section
+        </DrawerView.Header>
+        <DrawerView.Section
             items={items}
         />
         <Divider style={styles.divider} />
-        <Drawer.Section
+        <DrawerView.Section
             items={[]}
             title="Latest manga"
         />
-      </Drawer>
+      </DrawerView>
     );
   }
 
   render() {
-    const { children, route } = this.props;
+    const { navigationState } = this.props;
+    let selected = navigationState.children[navigationState.index];
 
     return (
       <DrawerLayoutAndroid
           drawerWidth={300}
+          ref={(ref) => this._drawer = ref}
           renderNavigationView={this.renderNavigationView}
       >
-        {React.Children.map(children, (child) => React.cloneElement(child, { route }))}
+        <DefaultRenderer
+            key={selected.key}
+            navigationState={selected}
+            {...selected}
+        />
       </DrawerLayoutAndroid>
     );
   }
